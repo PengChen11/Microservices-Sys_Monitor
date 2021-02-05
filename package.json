@@ -1,0 +1,22 @@
+{
+  "name": "Microservices-Sys_Monitor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --verbose --coverage",
+    "test-watch": "jest --watchAll --verbose --coverage",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PengChen11/Microservices-Sys_Monitor.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PengChen11/Microservices-Sys_Monitor/issues"
+  },
+  "homepage": "https://github.com/PengChen11/Microservices-Sys_Monitor#readme"
+}
