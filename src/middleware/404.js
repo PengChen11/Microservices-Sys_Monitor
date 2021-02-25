@@ -9,11 +9,12 @@ module.exports = (req,res,next) => {
   res.send(error);
   res.end();
 
-  const ip = req.ip || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress || 'No IP detected';
+  const ip = req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress || 'No IP detected';
   const warningData = {
-    ip,
+    req_ip: ip,
     method: req.method,
-    targetUrl: req.originalUrl,
+    target_url: req.originalUrl,
+    description: 'The web resource client requested does not exist',
   };
 
   monitor(warningData, 'warning', '404');

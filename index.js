@@ -28,30 +28,11 @@ connectDB();
 server.start();
 
 // register service with API gateway
-const registerService = async () =>{
+const registerService = require('./src/tool/register.js');
 
-  const reqConfig = {
-    method: 'post',
-    url: process.env.API_GATEWAY_URL,
-    data: {
-      service_name: 'monitorService',
-      service_url: process.env.MY_URL,
-    },
-  };
-  try {
-    await axios(reqConfig);
-    
-    console.log('Monitor Service now connected to API Gateway');
-  }
-  catch (error){
+registerService();
 
-    monitor({description:'Monitor Service can NOT connect to API Gateway', error}, 'error', '410');
-    console.log('gateway connection error');
-  }
-};
-
-registerService().then(()=>{monitor('Monitor Service now connected to API Gateway', 'event', '200');});
-
+// heart beat func, update status with api gateway every miniute
 setInterval(async()=>{
   registerService();
 }, 60000);

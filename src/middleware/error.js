@@ -11,10 +11,10 @@ module.exports = (err, req, res, next) => {
 
   const ip = req.ip || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress || 'No IP detected';
   const errorData = {
-    ip: ip,
+    req_ip: ip,
     method: req.method,
-    targetUrl: req.originalUrl,
-    description:'Server internal error occurred',
+    target_url: req.originalUrl,
+    description: 'Server internal error occurred',
     error: err,
   };
  
