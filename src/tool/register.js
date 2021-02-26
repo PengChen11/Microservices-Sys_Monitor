@@ -23,7 +23,6 @@ module.exports = async () =>{
         },
       });
       global.token = data.token;
-      console.log('*** global token is: ', global.token);
     } catch (error){
       console.log('error when auth');
 

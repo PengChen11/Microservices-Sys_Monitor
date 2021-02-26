@@ -1,7 +1,7 @@
 'use strict';
 const monitor = require('../tool/monitor.js');
 
-module.exports = (err, req, res, next) => {
+module.exports = async (err, req, res, next) => {
   // for Dev only, remove when deploy.
   console.log('**** 500 **** error logger', err);
   res.statusCode = err.statusCode || 500;
@@ -18,5 +18,5 @@ module.exports = (err, req, res, next) => {
     error: err,
   };
  
-  monitor(errorData, 'error', '500');
+  await monitor(errorData, 'error', '500');
 };

@@ -2,7 +2,7 @@
 const monitor = require('../tool/monitor.js');
 
 
-module.exports = (req,res,next) => {
+module.exports = async (req,res,next) => {
   const error = 'The web resource you requested does not exist';
   res.statusCode = 404;
   res.statusMessage = 'Not Found';
@@ -17,5 +17,5 @@ module.exports = (req,res,next) => {
     description: 'The web resource client requested does not exist',
   };
 
-  monitor(warningData, 'warning', '404');
+  await monitor(warningData, 'warning', '404');
 };

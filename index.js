@@ -19,6 +19,7 @@ async function connectDB () {
     monitor('Monitor service now connected to DB', 'event', '200');
   } catch (error){
     console.log('**** DB connection error',error);
+    // if sys monitoring service can NOT connect to DB, we can NOT log anything there. We will have to figure out some other way to notify the admin
   }
 } 
 
