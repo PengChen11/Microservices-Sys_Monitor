@@ -31,6 +31,8 @@ module.exports = async (data, modelSelector, type=undefined ) => {
         method: data.method,
         target_url: data.target_url,
         description: data.description,
+        requester: data.requester,
+        message: data.message,
       };
       break;
     default:
@@ -42,8 +44,9 @@ module.exports = async (data, modelSelector, type=undefined ) => {
         method: data.method,
         target_url: data.target_url,
         description: data.description,
-        message: data.error.message,
-        code: data.error.code,
+        requester: data.requester,
+        message: data.error.message || data.error.message_spec,
+        code: data.error.code || data.error.statusCode,
         stack: data.error.stack,
       };
       break;

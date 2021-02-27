@@ -4,31 +4,14 @@
 require('dotenv').config();
 const axios = require('axios');
 const monitor = require('./monitor.js');
+const getToken = require('./getToken.js');
 
 module.exports = async () =>{
 
-  const username = process.env.SERVICE_USERNAME;
-  const password = process.env.SERVICE_PASSWORD;
 
   // step 1, sign in to get a token if it does not exsit
   if (!global.token) {
-    
-    try {
-      const {data} = await axios({
-        method: 'post',
-        url: `${process.env.API_GATEWAY_URL}/auth/signin`,
-        auth: {
-          username,
-          password,
-        },
-      });
-      global.token = data.token;
-    } catch (error){
-      console.log('error when auth');
-
-      return;
-      // later on hook up monitor tool
-    }
+    await getToken();
   }
 
   // step 2, use the service token to register self with API gateway
@@ -50,11 +33,15 @@ module.exports = async () =>{
 
       // if success connect to API gateway for the 1st time, record an event
       monitor('Monitor Service now connected to API Gateway', 'event', '200');
+
+      // remove when deploying
       console.log('Monitor Service now connected to API Gateway');
     }
     // for dev only, delete when deploy
   }
   catch (error){
+
+    // this only works if the API gateway service registering route is broken, while system monitoring routes still works. if API gate way is totally broken, then nothing will work.
     
     monitor({description:'Monitor Service can NOT connect to API Gateway', error}, 'error', '410');
 

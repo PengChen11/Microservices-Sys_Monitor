@@ -10,6 +10,7 @@ const warnings = new mongoose.Schema({
   req_ip: {type: String},
   method: {type: String},
   target_url: {type: String},
+  requester: {type: String},
 });
 
 module.exports = mongoose.model('warnings', warnings);

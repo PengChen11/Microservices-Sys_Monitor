@@ -7,6 +7,7 @@ const events = new mongoose.Schema({
   type: { type: String},
   time: {type: Date, default: Date.now},
   message:{type: String},
+  data: {trype: String},
 });
 
 module.exports = mongoose.model('events', events);
