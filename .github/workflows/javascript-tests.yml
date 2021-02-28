@@ -25,3 +25,4 @@ jobs:
       env:
         CI: true
         TESTING_URL: ${{ secrets.TESTING_URL }}
+        ALLOWED_IP: ${{ secrets.ALLOWED_IP }}
