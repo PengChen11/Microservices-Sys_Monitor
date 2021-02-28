@@ -1,44 +1,63 @@
-'use strict';
+// This is the tool used inside of minotor service to record system logs.
 
+'use strict';
 const errorModel = require('../model/errorModel.js');
 const warningModel = require('../model/warningModel.js');
 const eventModel = require('../model/eventModel.js');
 
 module.exports = async (data, modelSelector, type=undefined ) => {
   let model;
-  
+  const time = new Date();
+  // this payload is going to be recorded in DB
+  let payload = {
+    service_name: 'monitor',
+    time: time.toISOString(),
+    type,
+    message: typeof(data)==='string'? data : undefined,
+  };
+
+  // Only events data came in as String, that's a general messages 
   switch (modelSelector){
 
-    case 'warning':
-      model = warningModel;
-      break;
     case 'event':
       model = eventModel;
+      break;
+    case 'warning':
+      model = warningModel;
+      // warning OBJ contains data needs to be parsed.
+      payload = {
+        ...payload,
+        req_ip: data.req_ip,
+        method: data.method,
+        target_url: data.target_url,
+        description: data.description,
+        requester: data.requester,
+        message: data.message,
+      };
       break;
     default:
       model = errorModel;
       //Errors Obj contains data needs to be parsed.
-      data = {
-        ...data,
-        error: {
-          code: data.error.code,
-          message: data.error.message,
-          stack: data.error.stack,
-        },
+      payload = {
+        ...payload,
+        req_ip: data.req_ip,
+        method: data.method,
+        target_url: data.target_url,
+        description: data.description,
+        requester: data.requester,
+        message: data.error.message || data.error.message_spec,
+        code: data.error.code || data.error.statusCode,
+        stack: data.error.stack,
       };
       break;
   }
 
   try {
-    const time = new Date();
-    await new model({
-      service_name: 'monitor',
-      time: time.toISOString(),
-      type,
-      data: typeof(data)!='string'? JSON.stringify(data) : data,
-    }).save();
+    
+    await new model(payload).save();
 
   } catch (error){
+    // in general, this only happens when connection to DB is lost. We will figure out anothe way to notify admin later.
     console.log('Error occourred when trying to record in DB', error);
   }
 };

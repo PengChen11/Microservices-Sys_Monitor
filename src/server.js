@@ -32,8 +32,7 @@ module.exports={
   start: (port) => {
     const PORT = process.env.PORT || 4442;
     app.listen(PORT, ()=> {
-      monitor('System Monitoring Service is now online', 'event', '200');
-      // for Dev only, remove when deploy
+      
       console.log(`System Monitoring Service is now listening on port ${PORT}`);
     },
     );
