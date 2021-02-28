@@ -11,11 +11,14 @@ const {getAll, getOneById, getAllByServiceName, createOne, deleteOne, deleteAll}
 const gatewayValidation = require('../middleware/gatewayValidation.js');
 
 // routes 
-router.get('/:model', gatewayValidation, getAll);
-router.get('/:model/service/:service_name', gatewayValidation, getAllByServiceName);
-router.get('/:model/:id', gatewayValidation, getOneById);
-router.post('/:model', gatewayValidation, createOne);
-router.delete('/:model/:id', gatewayValidation, deleteOne);
-router.delete('/:model', gatewayValidation, deleteAll);
+// This service only accept requests from API gateway.
+router.use(gatewayValidation);
+
+router.get('/:model', getAll);
+router.get('/:model/service/:service_name', getAllByServiceName);
+router.get('/:model/:id', getOneById);
+router.post('/:model', createOne);
+router.delete('/:model/:id', deleteOne);
+router.delete('/:model', deleteAll);
 
 module.exports = router;
