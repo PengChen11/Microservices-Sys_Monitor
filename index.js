@@ -36,4 +36,4 @@ registerService();
 // heart beat func, update status with api gateway every miniute
 setInterval(async()=>{
   registerService();
-}, 60000);
+}, 30000);
