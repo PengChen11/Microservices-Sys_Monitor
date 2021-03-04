@@ -6,7 +6,7 @@ const modelFinder = require('../middleware/modelFinder.js');
 
 router.param('model', modelFinder);
 
-const {getAll, getOneById, getAllByServiceName, createOne, deleteOne, deleteAll} = require('./routerHandler.js');
+const {getAll, getOneById, createOne, deleteOne, deleteAll} = require('./routerHandler.js');
 
 const gatewayValidation = require('../middleware/gatewayValidation.js');
 
@@ -15,7 +15,6 @@ const gatewayValidation = require('../middleware/gatewayValidation.js');
 router.use(gatewayValidation);
 
 router.get('/:model', getAll);
-router.get('/:model/service/:service_name', getAllByServiceName);
 router.get('/:model/:id', getOneById);
 router.post('/:model', createOne);
 router.delete('/:model/:id', deleteOne);
