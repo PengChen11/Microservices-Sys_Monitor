@@ -36,31 +36,31 @@ describe('testing for monitor tool', async()=>{
 
   it('testing for pushing warning log to DB', async()=>{
     const before = await mockRequest.get(`${testingURL}/warnings`);
-    expect(before.body.length).toBe(0);
+    expect(before.body.records.length).toBe(0);
 
     monitor(data, 'warning', '404');
 
     const after = await mockRequest.get(`${testingURL}/warnings`);
-    expect(after.body.length).toBe(1);
+    expect(after.body.records.length).toBe(1);
   });
 
   it('testing for pushing event log to DB', async()=>{
     const before = await mockRequest.get(`${testingURL}/events`);
-    expect(before.body.length).toBe(0);
+    expect(before.body.records.length).toBe(0);
 
     monitor(data, 'event', '200');
 
     const after = await mockRequest.get(`${testingURL}/events`);
-    expect(after.body.length).toBe(1);
+    expect(after.body.records.length).toBe(1);
   });
 
   it('testing for pushing error log to DB', async()=>{
     const before = await mockRequest.get(`${testingURL}/errors`);
-    expect(before.body.length).toBe(0);
+    expect(before.body.records.length).toBe(0);
 
     monitor(errorSample, 'error', '500');
 
     const after = await mockRequest.get(`${testingURL}/errors`);
-    expect(after.body.length).toBe(1);
+    expect(after.body.records.length).toBe(1);
   });
 });

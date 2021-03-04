@@ -19,7 +19,7 @@ module.exports = async() =>{
     return data.token;
     
   } catch (error){
-    console.log('Blog service can NOT login through API gateway right now.');
+    console.log('System Monitor service can NOT login through API gateway right now.');
 
     // if you can NOT get a token, there's nothing you can do, you won't be able to send logs to the system monitoring service.
     // we will figure out another way to handle this later

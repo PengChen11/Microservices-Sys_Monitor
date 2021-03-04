@@ -71,13 +71,13 @@ describe ('routes tests', ()=>{
   it('testing to get all logs,', async ()=>{
 
     const errorLogs = await mockRequest.get(`${testingURL}/errors`);
-    expect (errorLogs.body.length).toBeGreaterThan(0);
+    expect (errorLogs.body.records.length).toBeGreaterThan(0);
     
     const warningLogs = await mockRequest.get(`${testingURL}/warnings`);
-    expect (warningLogs.body.length).toBeGreaterThan(0);
+    expect (warningLogs.body.records.length).toBeGreaterThan(0);
 
     const eventLogs = await mockRequest.get(`${testingURL}/events`);
-    expect (eventLogs.body.length).toBeGreaterThan(0);
+    expect (eventLogs.body.records.length).toBeGreaterThan(0);
 
   });
 
@@ -99,16 +99,22 @@ describe ('routes tests', ()=>{
   it('testing to get all logs by service name,', async ()=>{
 
     const errorServiceName = errorLog.service_name;
-    const errorResult = await mockRequest.get(`${testingURL}/errors/service/${errorServiceName}`);
-    expect (errorResult.body[0].service_name).toBe('testing');
+    const errorResult = await mockRequest
+      .get(`${testingURL}/errors`)
+      .query({service_name: errorServiceName});
+    expect (errorResult.body.records[0].service_name).toBe('testing');
 
     const warningServiceName = warningLog.service_name;
-    const warningResult = await mockRequest.get(`${testingURL}/warnings/service/${warningServiceName}`);
-    expect (warningResult.body[0].service_name).toBe('testing');
+    const warningResult = await mockRequest
+      .get(`${testingURL}/warnings`)
+      .query({service_name: warningServiceName});
+    expect (warningResult.body.records[0].service_name).toBe('testing');
 
     const eventServiceName = eventLog.service_name;
-    const eventResult = await mockRequest.get(`${testingURL}/events/service/${eventServiceName}`);
-    expect (eventResult.body[0].service_name).toBe('testing');
+    const eventResult = await mockRequest
+      .get(`${testingURL}/events`)
+      .query({service_name: eventServiceName});
+    expect (eventResult.body.records[0].service_name).toBe('testing');
   });
 
   it('testing to delete one log,', async ()=>{
