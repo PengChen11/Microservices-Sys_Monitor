@@ -26,14 +26,12 @@ async function connectDB () {
 connectDB();
 
 
-server.start();
-
 // register service with API gateway
 const registerService = require('./src/tool/register.js');
 
 registerService();
 
 // heart beat func, update status with api gateway every miniute
-setInterval(async()=>{
-  registerService();
-}, 30000);
+setInterval( registerService, 30000);
+
+server.start();
